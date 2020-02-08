@@ -1,7 +1,7 @@
 m3u-manage
 =============
 
-https://m3u-manage.readthedocs.io/en/latest
+https://m3u-manage.readthedocs.io
 
 Tools to create amd manage an m3u playlist
 
@@ -30,6 +30,27 @@ Python pip
 ::
 
     pip install m3u-manage
+
+Usage
+^^^^^
+
+Analyze a playlist for the most common filename terms.
+
+::
+
+    m3um analyze
+
+Generate a playlist based on files in a folder.
+
+::
+
+    m3um generate
+
+Interleaves playlists by inserting with even-spacing.
+
+::
+
+    m3um mesh
 
 Documentation
 ^^^^^^^^^^^^^
