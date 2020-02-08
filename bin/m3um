@@ -32,5 +32,5 @@ cli.add_command(do_mesh)
 
 if __name__ == '__main__':
     from m3u_manage.__meta__ import __version__
-    print("curate {}".format(__version__))
+    print("m3u-manage {}".format(__version__))
     cli()

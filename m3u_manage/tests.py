@@ -3,7 +3,7 @@
 
 from nose.plugins.attrib import attr
 from unittest import TestCase
-from . import main
+from . import mesh, analyze, generate
 
 
 class BasicTestCase(TestCase):
@@ -15,7 +15,11 @@ class BasicTestCase(TestCase):
 
     def test_basic(self):
         "ensure the minimum test works"
-        self.assertEqual(main(1), 2)
+        self.assertEqual(mesh(1), 2)
+
+    def test_true(self):
+        "ensure the minimum test works"
+        self.assertTrue(True)
 
     @attr("skip")
     def test_skip(self):

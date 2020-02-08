@@ -58,14 +58,14 @@ example.json
 
     {
         "path": ".",
-        "subdirs": ["etc"],
+        "subdirs": ["videos"],
         "patterns": {
-            "config": {
-                "include": "(example|test)",
-                "exclude": "not-this"
-            },
-            "m3u": "playlist",
-            "cars": "(car|auto|sedan)"
+            "cars": "(car|auto|sedan)",
+            "trucks": "(truck|bus|shuttle)",
+            "planes": {
+                "include": "(jet|plane|rocket)",
+                "exclude": "shuttle"
+            }
         }
     }
 
