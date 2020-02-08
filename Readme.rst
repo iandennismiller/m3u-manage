@@ -24,13 +24,6 @@ Overview
 Installation
 ^^^^^^^^^^^^
 
-Homebrew
-~~~~~~~~
-
-::
-
-    brew install https://raw.githubusercontent.com/USERNAME/m3u-manage/master/etc/m3u_manage.rb
-
 Python pip
 ~~~~~~~~~~
 
