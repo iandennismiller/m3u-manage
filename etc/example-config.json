@@ -3,8 +3,8 @@
     "subdirs": ["etc"],
     "patterns": {
         "config": {
-            "include": "(example|ffserver)",
-            "exclude": "ffmpeg"
+            "include": "(example|test)",
+            "exclude": "not-this"
         },
         "m3u": "playlist",
         "cars": "(car|auto|sedan)"

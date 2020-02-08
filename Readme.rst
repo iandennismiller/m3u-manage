@@ -38,19 +38,37 @@ Analyze a playlist for the most common filename terms.
 
 ::
 
-    m3um analyze
+    m3um analyze --config example.json
 
 Generate a playlist based on files in a folder.
 
 ::
 
-    m3um generate
+    m3um generate --config example.json
 
 Interleaves playlists by inserting with even-spacing.
 
 ::
 
-    m3um mesh
+    m3um mesh --config example.json
+
+example.json
+^^^^^^^^^^^^
+::
+
+    {
+        "path": ".",
+        "subdirs": ["etc"],
+        "patterns": {
+            "config": {
+                "include": "(example|test)",
+                "exclude": "not-this"
+            },
+            "m3u": "playlist",
+            "cars": "(car|auto|sedan)"
+        }
+    }
+
 
 Documentation
 ^^^^^^^^^^^^^
