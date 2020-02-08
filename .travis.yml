@@ -1,0 +1,10 @@
+language: python
+cache: pip
+python:
+  - 3.6
+install:
+  - make develop install
+script:
+  - make coverage
+after_success:
+  - coveralls

@@ -1,0 +1,36 @@
+#!/usr/bin/env python
+
+import sys
+sys.path.insert(0, '.')
+
+import click
+import m3u_manage
+
+
+@click.group()
+def cli():
+    pass
+
+@click.command('analyze', short_help='Analyze path.')
+@click.option('--config', default='etc/example-config.json', help='Configuration filename.')
+def do_analyze(config):
+    m3u_manage.analyze(config)
+
+@click.command('generate', short_help='Generate data.')
+@click.option('--config', default='etc/example-config.json', help='Configuration filename.')
+def do_generate(config):
+    m3u_manage.generate(config)
+
+@click.command('mesh', short_help='Mesh playlists.')
+@click.option('--config', default='etc/example-config.json', help='Configuration filename.')
+def do_mesh(config):
+    m3u_manage.mesh(config)
+
+cli.add_command(do_generate)
+cli.add_command(do_analyze)
+cli.add_command(do_mesh)
+
+if __name__ == '__main__':
+    from m3u_manage.__meta__ import __version__
+    print("curate {}".format(__version__))
+    cli()

@@ -1,0 +1,6 @@
+[run]
+source = m3u_manage
+[report]
+omit =
+    */python?.?/*
+    */site-packages/nose/*

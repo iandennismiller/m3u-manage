@@ -1,0 +1,10 @@
+/build/
+/dist/
+/*.egg-info/
+/.tox/
+/.coverage
+/.coveralls.yml
+/coverage.xml
+/.vscode/
+*.pyc
+__pycache__
