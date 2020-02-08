@@ -1,7 +1,7 @@
 m3u-manage
 =============
 
-https://diamond-patterns.readthedocs.io/en/latest/patterns.html
+https://m3u-manage.readthedocs.io/en/latest
 
 Tools to create amd manage an m3u playlist
 
