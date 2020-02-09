@@ -24,9 +24,6 @@ Overview
 Installation
 ^^^^^^^^^^^^
 
-Python pip
-~~~~~~~~~~
-
 ::
 
     pip install m3u-manage
@@ -34,11 +31,8 @@ Python pip
 Usage
 ^^^^^
 
-::
-
-    m3um analyze ./TV
-    m3um generate --config ./example.json
-    m3um mesh -o mesh.m3u TV/*.m3u
+Analyze
+"""""""
 
 Analyze a playlist for the most common terms appearing in filenames.
 
@@ -46,11 +40,18 @@ Analyze a playlist for the most common terms appearing in filenames.
 
     m3um analyze DIRECTORY_NAME
 
-Generate playlists based on the inclusion and exclusion criteria in the provided .json file.
+Produces output like:
 
 ::
 
-    m3um generate --config example.json
+    m3u-manage 0.2.2
+    90: cbc
+    47: true
+    47: season
+    45: patrol
+
+Mesh
+""""
 
 Create interleaved playlists by inserting from playlists with even spacing.
 
@@ -58,8 +59,29 @@ Create interleaved playlists by inserting from playlists with even spacing.
 
     m3um mesh -o OUTPUT.m3u FILE1.m3u FILE2.m3u FILE3.m3u ...
 
+Generate
+""""""""
+
+Generate playlists based on the inclusion and exclusion criteria in the provided .json file.
+
+::
+
+    m3um generate --config example.json
+
+Produces output like:
+
+::
+
+    m3u-manage 0.2.2
+    TV/cars.m3u
+    9
+    TV/trucks.m3u
+    27
+    TV/planes.m3u
+    31
+
 example.json
-^^^^^^^^^^^^
+""""""""""""
 
 When using the generate command, a series of expressions is provided in a .json file to indicate which playlists to generate.
 
