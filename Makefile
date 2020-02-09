@@ -31,7 +31,7 @@ test:
 tox:
 	tox
 
-release:
+release: clean
 	# 1. create API token at https://pypi.org/manage/account/token/
 	# 2. create ~/.pypirc with [pypi] / username = __token__ / password = pypi-...
 	python setup.py sdist bdist_wheel
