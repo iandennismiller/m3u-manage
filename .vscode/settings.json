@@ -1,5 +1,10 @@
 {
     "python.pythonPath": "~/.virtualenvs/m3u_manage/bin/python",
     "restructuredtext.confPath": "${workspaceFolder}/docs",
-    "python.testing.nosetestsEnabled": true
+    "python.testing.nosetestsEnabled": true,
+    "python.testing.nosetestArgs": [
+        "m3u_manage"
+    ],
+    "python.testing.pytestEnabled": false,
+    "python.testing.unittestEnabled": false
 }

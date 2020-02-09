@@ -59,15 +59,6 @@ Create interleaved playlists by inserting from playlists with even spacing.
 
     m3um mesh -o OUTPUT.m3u FILE1.m3u FILE2.m3u FILE3.m3u ...
 
-Generate
-""""""""
-
-Generate playlists based on the inclusion and exclusion criteria in the provided .json file.
-
-::
-
-    m3um generate --config example.json
-
 Produces output like:
 
 ::
@@ -79,11 +70,30 @@ Produces output like:
     27
     TV/planes.m3u
     31
+    wrote OUTPUT.m3u
+
+Curate
+""""""""
+
+Curate playlists based on the inclusion and exclusion criteria in the provided .json file.
+
+::
+
+    m3um curate --config example.json
+
+Produces output like:
+
+::
+
+    m3u-manage 0.2.2
+    write TV/cars.m3u
+    write TV/trucks.m3u
+    write TV/planes.m3u
 
 example.json
 """"""""""""
 
-When using the generate command, a series of expressions is provided in a .json file to indicate which playlists to generate.
+When using the curate command, a series of expressions is provided in a .json file to indicate which playlists to generate.
 
 The following `example.json` creates three .m3u files based on the videos present in the /TV directory.
 The cars and trucks playlists will contain any filename that matches the regular expressions.

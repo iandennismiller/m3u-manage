@@ -16,10 +16,10 @@ def cli():
 def do_analyze(directory):
     m3u_manage.analyze(directory)
 
-@click.command('generate', short_help='Generate data.')
-@click.option('--config', required=True, help='Configuration filename.')
-def do_generate(config):
-    m3u_manage.generate(config)
+@click.command('curate', short_help='Curate videos into playlists.')
+@click.option('--config', required=True, help='Curation configuration filename.')
+def do_curate(config):
+    m3u_manage.curate(config)
 
 @click.command('mesh', short_help='Mesh playlists.')
 @click.option('--outfile', '-o', required=True, help='New playlist file to create.')
@@ -27,7 +27,7 @@ def do_generate(config):
 def do_mesh(filenames, outfile):
     m3u_manage.mesh(filenames, outfile)
 
-cli.add_command(do_generate)
+cli.add_command(do_curate)
 cli.add_command(do_analyze)
 cli.add_command(do_mesh)
 

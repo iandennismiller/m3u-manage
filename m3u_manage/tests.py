@@ -3,7 +3,6 @@
 
 from nose.plugins.attrib import attr
 from unittest import TestCase
-from . import mesh, analyze, generate
 
 
 class BasicTestCase(TestCase):
@@ -20,6 +19,22 @@ class BasicTestCase(TestCase):
     def test_true(self):
         "ensure the minimum test works"
         self.assertTrue(True)
+
+    def test_curate(self):
+        "ensure the minimum test works"
+        from . import curate
+        self.assertTrue(curate("etc/example-config.json"))
+
+    def test_mesh(self):
+        "ensure the minimum test works"
+        from . import mesh, combine_m3us
+        self.assertTrue(combine_m3us(["", ""]))
+        self.assertTrue(mesh(outfile="/tmp/out.m3u", filenames=[""]))
+
+    def test_analyze(self):
+        "ensure the minimum test works"
+        from . import analyze
+        self.assertTrue(analyze("etc"))
 
     # @attr("skip")
     # def test_skip(self):

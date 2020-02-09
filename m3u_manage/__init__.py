@@ -44,13 +44,13 @@ def intersperse(*sequences):
     for _, x in sorted(itertools.chain(*distributions), key=get0):
         yield x
 
-def mesh(filenames, outfile):
+def combine_m3us(m3u_filenames):
     playlist = []
 
-    for filename in filenames:
+    for filename in m3u_filenames:
         print(filename)
         m3u8_obj = m3u8.load(filename)
-        print(len(m3u8_obj.segments))
+        print("found: {}".format(len(m3u8_obj.segments)))
 
         new_items = [str(x) for x in m3u8_obj.segments]
         if not playlist:
@@ -58,28 +58,22 @@ def mesh(filenames, outfile):
         else:
             playlist = list(intersperse(new_items, playlist))
 
-    buf = ""
-    for segment in playlist:
-        buf += "{}\n".format(segment)
+    return(playlist)
 
+def write_m3u(outfile, buf):
     with open(outfile, 'w') as f:
         f.write("#EXTM3U\n")
         f.write(buf)
 
-    # return(buf)
+def mesh(filenames, outfile):
+    playlist = combine_m3us(filenames)
 
-def load_cfg(config):
-    try:
-        with open(config, 'r') as f:
-            cfg = json.load(f)
-    except FileNotFoundError:
-        print("Error: config {} not found".format(config))
-        return(-1)
-    except json.decoder.JSONDecodeError as e:
-        print("Error: cannot parse {}".format(config))
-        print(e)
-        return(-1)
-    return(cfg)
+    buf = ""
+    for segment in playlist:
+        buf += "{}\n".format(segment)
+
+    write_m3u(outfile, buf)
+    print("wrote {}".format(outfile))
 
 def analyze(search_path):
     word_list = []
@@ -104,7 +98,20 @@ def analyze(search_path):
     for word in top_words:
         print("{1}: {0}".format(*word))
 
-def generate(config):
+def load_cfg(config):
+    try:
+        with open(config, 'r') as f:
+            cfg = json.load(f)
+    except FileNotFoundError:
+        print("Error: config {} not found".format(config))
+        return(-1)
+    except json.decoder.JSONDecodeError as e:
+        print("Error: cannot parse {}".format(config))
+        print(e)
+        return(-1)
+    return(cfg)
+
+def curate(config):
     cfg = load_cfg(config)
     base_cwd = os.getcwd()
 
@@ -138,10 +145,11 @@ def generate(config):
                         listing[filename] = True
 
                 if was_found:
-                    found = os.path.join(base_cwd, filename)
-                    found = os.path.relpath(found, cfg["path"])
-                    buf += "#EXTINF:0,{}\n".format(found)
-                    buf += "{}\n".format(found)
+                    full_path = os.path.join(base_cwd, filename)
+                    rel_path = os.path.relpath(full_path, cfg["path"])
+                    if os.path.isfile(full_path):
+                        buf += "#EXTINF:0,{}\n".format(rel_path)
+                        buf += "{}\n".format(rel_path)
         if buf != "":
             filename = "{}/{}.m3u".format(cfg["path"], name)
             print("write {}".format(filename))
@@ -153,11 +161,11 @@ def generate(config):
     buf = ""
     for filename in listing:
         if listing[filename] is False:
-            found = os.path.join(base_cwd, filename)
-            found = os.path.relpath(found, cfg["path"])
-            if found not in cfg['subdirs']:
-                buf += "#EXTINF:0,{}\n".format(found)
-                buf += "{}\n".format(found)
+            full_path = os.path.join(base_cwd, filename)
+            rel_path = os.path.relpath(found, cfg["path"])
+            if rel_path not in cfg['subdirs'] and os.path.isfile(full_path):
+                buf += "#EXTINF:0,{}\n".format(rel_path)
+                buf += "{}\n".format(rel_path)
 
     filename = "{}/{}.m3u".format(cfg["path"], "unmatched")
     print("write {}".format(filename))
