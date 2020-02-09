@@ -34,31 +34,46 @@ Python pip
 Usage
 ^^^^^
 
-Analyze a playlist for the most common filename terms.
+::
+
+    m3um analyze ./TV
+    m3um generate --config ./example.json
+    m3um mesh -o mesh.m3u TV/*.m3u
+
+Analyze a playlist for the most common terms appearing in filenames.
 
 ::
 
-    m3um analyze --config example.json
+    m3um analyze DIRECTORY_NAME
 
-Generate a playlist based on files in a folder.
+Generate playlists based on the inclusion and exclusion criteria in the provided .json file.
 
 ::
 
     m3um generate --config example.json
 
-Interleaves playlists by inserting with even-spacing.
+Create interleaved playlists by inserting from playlists with even spacing.
 
 ::
 
-    m3um mesh --config example.json
+    m3um mesh -o OUTPUT.m3u FILE1.m3u FILE2.m3u FILE3.m3u ...
 
 example.json
 ^^^^^^^^^^^^
+
+When using the generate command, a series of expressions is provided in a .json file to indicate which playlists to generate.
+
+The following `example.json` creates three .m3u files based on the videos present in the /TV directory.
+The cars and trucks playlists will contain any filename that matches the regular expressions.
+
+The planes example specifies criteria for inclusion and exclusion, both as regular expressions.
+According to the exclusion criteria, all shuttles belong in the trucks playlist.
+
 ::
 
     {
         "path": ".",
-        "subdirs": ["videos"],
+        "subdirs": ["TV"],
         "patterns": {
             "cars": "(car|auto|sedan)",
             "trucks": "(truck|bus|shuttle)",
@@ -68,7 +83,6 @@ example.json
             }
         }
     }
-
 
 Documentation
 ^^^^^^^^^^^^^

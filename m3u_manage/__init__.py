@@ -60,9 +60,10 @@ def mesh(filenames, outfile):
 
     buf = ""
     for segment in playlist:
-        buf += segment
+        buf += "{}\n".format(segment)
 
     with open(outfile, 'w') as f:
+        f.write("#EXTM3U\n")
         f.write(buf)
 
     # return(buf)
@@ -139,6 +140,7 @@ def generate(config):
                 if was_found:
                     found = os.path.join(base_cwd, filename)
                     found = os.path.relpath(found, cfg["path"])
+                    buf += "#EXTINF:0,{}\n".format(found)
                     buf += "{}\n".format(found)
         if buf != "":
             filename = "{}/{}.m3u".format(cfg["path"], name)
@@ -154,7 +156,7 @@ def generate(config):
             found = os.path.join(base_cwd, filename)
             found = os.path.relpath(found, cfg["path"])
             if found not in cfg['subdirs']:
-                buf += "{}\n".format(found)
+                buf += "#EXTINF:0,{}\n".format(found)
                 buf += "{}\n".format(found)
 
     filename = "{}/{}.m3u".format(cfg["path"], "unmatched")
