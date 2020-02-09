@@ -7,6 +7,7 @@ import glob
 import json
 import m3u8
 import nltk
+import pathlib
 import itertools
 import operator
 from nltk import ngrams, FreqDist
@@ -43,7 +44,7 @@ def intersperse(*sequences):
     for _, x in sorted(itertools.chain(*distributions), key=get0):
         yield x
 
-def mesh(filenames):
+def mesh(filenames, outfile):
     playlist = []
 
     for filename in filenames:
@@ -61,7 +62,10 @@ def mesh(filenames):
     for segment in playlist:
         buf += segment
 
-    return(buf)
+    with open(outfile, 'w') as f:
+        f.write(buf)
+
+    # return(buf)
 
 def load_cfg(config):
     try:
@@ -76,14 +80,12 @@ def load_cfg(config):
         return(-1)
     return(cfg)
 
-def analyze(config):
-    cfg = load_cfg(config)
-
+def analyze(search_path):
     word_list = []
-    for search_path in cfg['subdirs']:
-        search_glob = "{}/{}/**".format(cfg["path"], search_path)
-        for filename in glob.iglob(search_glob, recursive=True):
-            word_list += re.split(r'\W', filename.lower())
+    search_glob = "{}/**".format(search_path)
+    for filename in glob.iglob(search_glob, recursive=True):
+        stem = pathlib.Path(filename).stem.lower()
+        word_list += re.split(r'\W', stem)
 
     filtered_words = [word for word in word_list if word not in stopwords.words('english')]
     filtered_words = [word for word in filtered_words if word not in ['vids', '_db', 'mp4', '_', '1', '2']]
@@ -91,7 +93,9 @@ def analyze(config):
     raw = " ".join(filtered_words)
     bag = nltk.word_tokenize(raw)
     freqdist = FreqDist(bag)
+
     # words = [ x for (x, c) in freqdist.items() if c > 5 ]
+
     words_sorted = sorted(freqdist.items(), key =
         lambda kv:(kv[1], kv[0]))
     top_words = words_sorted[-30:]

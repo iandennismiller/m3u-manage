@@ -11,20 +11,21 @@ import m3u_manage
 def cli():
     pass
 
-@click.command('analyze', short_help='Analyze path.')
-@click.option('--config', default='etc/example-config.json', help='Configuration filename.')
-def do_analyze(config):
-    m3u_manage.analyze(config)
+@click.command('analyze', short_help='Analyze directory.')
+@click.argument('directory', required=True)
+def do_analyze(directory):
+    m3u_manage.analyze(directory)
 
 @click.command('generate', short_help='Generate data.')
-@click.option('--config', default='etc/example-config.json', help='Configuration filename.')
+@click.option('--config', required=True, help='Configuration filename.')
 def do_generate(config):
     m3u_manage.generate(config)
 
 @click.command('mesh', short_help='Mesh playlists.')
-@click.option('--config', default='etc/example-config.json', help='Configuration filename.')
-def do_mesh(config):
-    m3u_manage.mesh(config)
+@click.option('--outfile', '-o', required=True, help='New playlist file to create.')
+@click.argument('filenames', nargs=-1, required=True)
+def do_mesh(filenames, outfile):
+    m3u_manage.mesh(filenames, outfile)
 
 cli.add_command(do_generate)
 cli.add_command(do_analyze)
