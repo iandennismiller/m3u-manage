@@ -13,15 +13,15 @@ class BasicTestCase(TestCase):
     def tearDown(self):
         pass
 
-    def test_basic(self):
-        "ensure the minimum test works"
-        self.assertEqual(mesh(1), 2)
+    # def test_basic(self):
+    #     "ensure the minimum test works"
+    #     self.assertEqual(mesh(1), 2)
 
     def test_true(self):
         "ensure the minimum test works"
         self.assertTrue(True)
 
-    @attr("skip")
-    def test_skip(self):
-        "this always fails, except when it is skipped"
-        self.assertTrue(False)
+    # @attr("skip")
+    # def test_skip(self):
+    #     "this always fails, except when it is skipped"
+    #     self.assertTrue(False)
