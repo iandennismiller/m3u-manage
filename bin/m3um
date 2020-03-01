@@ -5,7 +5,7 @@ sys.path.insert(0, '.')
 
 import click
 from m3u_manage.filesystem import regularize, analyze, decide, gather, tag
-from m3u_manage.playlist import mesh, curate, repeat
+from m3u_manage.playlist import mesh, curate, repeat, append_video, insert_video, delete_video, get_video, get_summary
 
 @click.group()
 def cli():
@@ -60,11 +60,36 @@ def do_tag(directory, config):
 def do_repeat(output_m3u, video, times):
     repeat(output_m3u, video, times)
 
-# - [ ] append IN.M3U VIDEO: update m3u by appending video to end
-# - [ ] insert IN.M3U INDEX VIDEO: update m3u by inserting video at specified index (0 for start)
-# - [ ] delete IN.M3U INDEX: update m3u by deleting video at specified index
-# - [ ] get IN.M3U INDEX: print video at specified index
-# - [ ] summary IN.M3U: print summary of m3u, with titles and durations
+@click.command('append', short_help='Update m3u by appending video to end.')
+@click.argument('input_m3u', required=True)
+@click.argument('video', required=True)
+def do_append(input_m3u, video):
+    append_video(input_m3u, video)
+
+@click.command('insert', short_help='Update m3u by inserting video at specified index (0 for start).')
+@click.argument('input_m3u', required=True)
+@click.argument('video', required=True)
+@click.argument('index', required=True)
+def do_insert(input_m3u, video, index):
+    insert_video(input_m3u, video, index)
+
+@click.command('delete', short_help='Update m3u by deleting video at specified index.')
+@click.argument('input_m3u', required=True)
+@click.argument('index', required=True)
+def do_delete(input_m3u, index):
+    delete_video(input_m3u, index)
+
+@click.command('get', short_help='Print video at specified index.')
+@click.argument('input_m3u', required=True)
+@click.argument('index', required=True)
+def do_get(input_m3u, index):
+    get_video(input_m3u, index)
+
+@click.command('summary', short_help='Print summary of m3u, with titles and durations.')
+@click.argument('input_m3u', required=True)
+def do_summary(input_m3u):
+    get_summary(input_m3u)
+
 
 cli.add_command(do_curate)
 cli.add_command(do_analyze)
@@ -74,8 +99,13 @@ cli.add_command(do_regularize)
 cli.add_command(do_gather)
 cli.add_command(do_tag)
 cli.add_command(do_repeat)
+cli.add_command(do_append)
+cli.add_command(do_insert)
+cli.add_command(do_delete)
+cli.add_command(do_get)
+cli.add_command(do_summary)
 
 if __name__ == '__main__':
     from m3u_manage.__meta__ import __version__
-    print("m3u-manage {}".format(__version__))
+    print("m3u-manage {}\n".format(__version__))
     cli()

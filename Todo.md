@@ -1,14 +1,5 @@
 # m3u-manage
 
-## Milestone 3: list management
-
-- [ ] repeat OUT.M3U VIDEO N-TIMES: create playlist consisting of video repeated
-- [ ] append IN.M3U VIDEO: update m3u by appending video to end
-- [ ] insert IN.M3U INDEX VIDEO: update m3u by inserting video at specified index (0 for start)
-- [ ] delete IN.M3U INDEX: update m3u by deleting video at specified index
-- [ ] get IN.M3U INDEX: print video at specified index
-- [ ] summary IN.M3U: print summary of m3u, with titles and durations
-
 ## Milestone 4: video management
 
 - [ ] side-by-side IN.M3U OUT.M3U: using ffmpeg, convert all videos to sbs projection
@@ -53,3 +44,12 @@
 - [x] gather FROM_PATH TO_PATH: recursively move from_path into to_path, flattening directory hierarchy
 - [x] decide PATH DEST1 DEST2: for all files in PATH, preview each and sort into DEST1 or DEST2 with a single keypress, then automatically advance
 - [x] tag PATH tags.json: for all files in PATH, preview and single-keypress interface to add tags, from tags.json, to filenames (i.e. append strings)
+
+## Milestone 3: list management
+
+- [x] repeat OUT.M3U VIDEO N-TIMES: create playlist consisting of video repeated
+- [x] append IN.M3U VIDEO: update m3u by appending video to end
+- [x] insert IN.M3U INDEX VIDEO: update m3u by inserting video at specified index (0 for start)
+- [x] delete IN.M3U INDEX: update m3u by deleting video at specified index
+- [x] get IN.M3U INDEX: print video at specified index
+- [x] summary IN.M3U: print summary of m3u, with titles and durations

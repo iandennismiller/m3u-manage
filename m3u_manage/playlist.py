@@ -108,4 +108,79 @@ def curate(config):
         f.write(buf)
 
 def repeat(output_m3u, video, times):
-    pass
+    """
+    repeat OUT.M3U VIDEO N-TIMES: create playlist consisting of video repeated
+    """
+    buf = ""
+
+    for i in range(0, int(times)):
+        buf += "#EXTINF:0,{}\n".format(video)
+        buf += "{}\n".format(video)
+
+    with open(output_m3u, "w") as f:
+        f.write("#EXTM3U\n")
+        f.write(buf)
+
+def append_video(input_m3u, video):
+    """
+    append IN.M3U VIDEO: update m3u by appending video to end
+    """
+    m3u8_obj = m3u8.load(input_m3u)
+    new_segment = m3u8.Segment(uri=video, title=video, duration=0)
+
+    print("Append {} to end of playlist".format(video))
+    m3u8_obj.segments.append(new_segment)
+
+    with open(input_m3u, "w") as f:
+        f.write(m3u8_obj.dumps())
+
+def insert_video(input_m3u, video, index):
+    """
+    insert IN.M3U INDEX VIDEO: update m3u by inserting video at specified index (0 for start)
+    """
+    m3u8_obj = m3u8.load(input_m3u)
+
+    new_segment = m3u8.Segment(uri=video, title=video, duration=0)
+    segment = m3u8_obj.segments[int(index)]
+
+    print("Inserting {} before {}".format(video, segment.uri))
+    m3u8_obj.segments.insert(int(index), new_segment)
+
+    with open(input_m3u, "w") as f:
+        f.write(m3u8_obj.dumps())
+
+def delete_video(input_m3u, index):
+    """
+    delete IN.M3U INDEX: update m3u by deleting video at specified index
+    """
+    m3u8_obj = m3u8.load(input_m3u)
+    segment = m3u8_obj.segments[int(index)]
+
+    print("Deleting {}".format(segment.uri))
+    del(m3u8_obj.segments[int(index)])
+
+    with open(input_m3u, "w") as f:
+        f.write(m3u8_obj.dumps())
+
+def get_video(input_m3u, index):
+    """
+    get IN.M3U INDEX: print video at specified index
+    """
+    m3u8_obj = m3u8.load(input_m3u)
+    segment = m3u8_obj.segments[int(index)]
+    print(segment)
+
+def get_summary(input_m3u):
+    """
+    summary IN.M3U: print summary of m3u, with titles and durations
+    """
+    m3u8_obj = m3u8.load(input_m3u)
+
+    print("Summary of: {}".format(input_m3u))
+    print("Number of files in m3u: {}\n".format(len(m3u8_obj.segments)))
+
+    idx = 0
+    for segment in m3u8_obj.segments:
+        print("{}.\t{}s\t{}".format(idx, segment.duration, segment.uri))
+        idx += 1
+        
