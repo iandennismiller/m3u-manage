@@ -4,3 +4,4 @@ nltk
 pygame
 pymovie
 getch
+ffmpeg-python

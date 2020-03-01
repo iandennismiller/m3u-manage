@@ -13,6 +13,13 @@ from nltk.corpus import stopwords
 
 from . import load_cfg
 from .util import intersperse
+from .video import side_by_side_video
+
+stub_m3u_tmpl = """
+#EXTM3U
+#EXTINF:0,{video}
+{video}
+"""
 
 def combine_m3us(m3u_filenames):
     playlist = []
@@ -96,7 +103,7 @@ def curate(config):
     for filename in listing:
         if listing[filename] is False:
             full_path = os.path.join(base_cwd, filename)
-            rel_path = os.path.relpath(found, cfg["path"])
+            rel_path = os.path.relpath(full_path, cfg["path"])
             if rel_path not in cfg['subdirs'] and os.path.isfile(full_path):
                 buf += "#EXTINF:0,{}\n".format(rel_path)
                 buf += "{}\n".format(rel_path)
@@ -125,14 +132,16 @@ def append_video(input_m3u, video):
     """
     append IN.M3U VIDEO: update m3u by appending video to end
     """
-    m3u8_obj = m3u8.load(input_m3u)
-    new_segment = m3u8.Segment(uri=video, title=video, duration=0)
-
-    print("Append {} to end of playlist".format(video))
-    m3u8_obj.segments.append(new_segment)
-
-    with open(input_m3u, "w") as f:
-        f.write(m3u8_obj.dumps())
+    try:
+        m3u8_obj = m3u8.load(input_m3u)
+        new_segment = m3u8.Segment(uri=video, title=video, duration=0)
+        print("Append {} to end of playlist".format(video))
+        m3u8_obj.segments.append(new_segment)
+        with open(input_m3u, "w") as f:
+            f.write(m3u8_obj.dumps())
+    except:
+        with open(input_m3u, "w") as f:
+            f.write(stub_m3u_tmpl.format(video=video))
 
 def insert_video(input_m3u, video, index):
     """
@@ -184,3 +193,17 @@ def get_summary(input_m3u):
         print("{}.\t{}s\t{}".format(idx, segment.duration, segment.uri))
         idx += 1
         
+def side_by_side(input_m3u, output_m3u):
+    """
+    side-by-side IN.M3U OUT.M3U: using ffmpeg, convert all videos to sbs projection
+    """
+    m3u8_obj = m3u8.load(input_m3u)
+
+    for segment in m3u8_obj.segments:
+        filename = segment.uri
+        if os.path.isfile(filename):
+            pathname = os.path.dirname(filename)
+            basename = os.path.basename(filename)
+            basename = "sbs " + basename
+            new_filename = os.path.join(pathname, basename)
+            side_by_side_video(filename, new_filename)

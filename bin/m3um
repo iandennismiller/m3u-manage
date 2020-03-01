@@ -5,7 +5,7 @@ sys.path.insert(0, '.')
 
 import click
 from m3u_manage.filesystem import regularize, analyze, decide, gather, tag
-from m3u_manage.playlist import mesh, curate, repeat, append_video, insert_video, delete_video, get_video, get_summary
+from m3u_manage.playlist import mesh, curate, repeat, append_video, insert_video, delete_video, get_video, get_summary, side_by_side
 
 @click.group()
 def cli():
@@ -90,6 +90,11 @@ def do_get(input_m3u, index):
 def do_summary(input_m3u):
     get_summary(input_m3u)
 
+@click.command('side-by-side', short_help='Using ffmpeg, convert all videos to sbs projection.')
+@click.argument('input_m3u', required=True)
+@click.argument('output_m3u', required=True)
+def do_side_by_side(input_m3u, output_m3u):
+    side_by_side(input_m3u, output_m3u)
 
 cli.add_command(do_curate)
 cli.add_command(do_analyze)
@@ -104,6 +109,7 @@ cli.add_command(do_insert)
 cli.add_command(do_delete)
 cli.add_command(do_get)
 cli.add_command(do_summary)
+cli.add_command(do_side_by_side)
 
 if __name__ == '__main__':
     from m3u_manage.__meta__ import __version__
