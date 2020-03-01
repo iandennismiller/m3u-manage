@@ -11,25 +11,48 @@ import m3u_manage
 def cli():
     pass
 
-@click.command('analyze', short_help='Analyze directory.')
+@click.command('analyze', short_help='Analyze directory for keywords.')
+@click.option('--config', '-c', help='Config file containing tags.')
 @click.argument('directory', required=True)
-def do_analyze(directory):
-    m3u_manage.analyze(directory)
+def do_analyze(directory, config):
+    m3u_manage.analyze(directory, config)
 
-@click.command('curate', short_help='Curate videos into playlists.')
+@click.command('curate', short_help='Automatically curate videos into playlists.')
 @click.option('--config', required=True, help='Curation configuration filename.')
 def do_curate(config):
     m3u_manage.curate(config)
 
-@click.command('mesh', short_help='Mesh playlists.')
+@click.command('mesh', short_help='Combine playlists by interleaving items.')
 @click.option('--outfile', '-o', required=True, help='New playlist file to create.')
 @click.argument('filenames', nargs=-1, required=True)
 def do_mesh(filenames, outfile):
     m3u_manage.mesh(filenames, outfile)
 
+# decide PATH DEST1 DEST2
+@click.command('decide', short_help='Perform sorting decisions about videos.')
+@click.argument('path', required=True)
+@click.argument('dest1', required=True)
+@click.argument('dest2', required=True)
+def do_decide(path, dest1, dest2):
+    m3u_manage.decide(path, dest1, dest2)
+
+@click.command('regularize', short_help='Regularize filenames in a directory.')
+@click.argument('directory', required=True)
+def do_regularize(directory):
+    m3u_manage.regularize(directory)
+
+@click.command('gather', short_help='Recursively move from DIRECTORY into DESTINATION, flattening directory hierarchy.')
+@click.argument('directory', required=True)
+@click.argument('destination', required=True)
+def do_gather(directory, destination):
+    m3u_manage.gather(directory, destination)
+
 cli.add_command(do_curate)
 cli.add_command(do_analyze)
 cli.add_command(do_mesh)
+cli.add_command(do_decide)
+cli.add_command(do_regularize)
+cli.add_command(do_gather)
 
 if __name__ == '__main__':
     from m3u_manage.__meta__ import __version__

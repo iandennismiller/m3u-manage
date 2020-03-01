@@ -9,3 +9,6 @@
 __pycache__
 /.noseids
 /nosetests.xml
+.ipy_checkpoints
+.ipynb_checkpoints
+scratchpad.ipynb
