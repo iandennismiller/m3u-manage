@@ -212,7 +212,7 @@ def decide(path, dest1, dest2):
         # use ESC key to exit
         clip.preview()
         pygame.display.quit()
-        pygame.quit()
+        # pygame.quit()
         clip.close()
 
         print("Decide [z, x, or q]: ", end='')
@@ -245,3 +245,83 @@ def gather(path, dest):
             destination = os.path.join(dest, just_name)
             print(just_name)
             shutil.move(filename, destination)
+
+def print_tags(cfg):
+    print()
+    idx = 1
+    for tag in cfg['tags']:
+        print("({}) {}".format(idx, tag), end=' ')
+        idx += 1
+        if idx > 9:
+            print()
+            break
+
+def print_tag_prompt(cfg):
+    print_tags(cfg)
+    prompt = "Tag [1 - 9, n, q]: "
+    print(prompt, end='')
+    sys.stdout.flush()
+
+def tag(path, config_file):
+    import pygame
+    from moviepy.editor import VideoFileClip
+
+    # load config file, if provided
+    if config_file:
+        cfg = load_cfg(config_file)
+        if 'tags' not in cfg:
+            cfg['tags'] = []
+    else:
+        cfg = {
+            'tags': []
+        }
+
+    search_glob = "{}/**".format(path)
+    for filename in glob.iglob(search_glob, recursive=True):
+        if os.path.isfile(filename):
+            just_name = os.path.basename(filename)
+            initial_name = just_name
+            new_name = initial_name
+            print(just_name)
+
+            new_tags = []
+
+            print_tags(cfg)
+
+            clip = VideoFileClip(filename)
+            # use ESC key to exit
+            clip.preview()
+            pygame.display.quit()
+            # pygame.quit()
+            clip.close()
+
+            print_tag_prompt(cfg)
+
+            char = ''
+            while char not in ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'n', 'q']:
+                char = getch.getche()
+                print()
+
+                if char == 'q':
+                    print("\nExiting")
+                    sys.exit()
+                elif char == 'n':
+                    if new_name != initial_name:
+                        pathname = os.path.dirname(filename)
+                        destination = os.path.join(pathname, new_name)
+                        print("rename as '{}'".format(new_name))
+                        shutil.move(filename, destination)
+                    print("Next")
+                elif char in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
+                    tag_idx = int(char)-int('1')
+                    tag = cfg['tags'][tag_idx]
+                    new_name = tag + ' ' + new_name
+                    new_tags.append(tag)
+
+                    print("\nNew tags: {}".format(" ".join(new_tags)))
+                    print_tag_prompt(cfg)
+                    # prevent from breaking out of loop
+                    char = ''
+                else:
+                    print("\nError: unrecognized input")
+                    print_tag_prompt(cfg)

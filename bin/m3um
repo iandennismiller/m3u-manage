@@ -47,12 +47,20 @@ def do_regularize(directory):
 def do_gather(directory, destination):
     m3u_manage.gather(directory, destination)
 
+@click.command('tag', short_help='Tag files in directory.')
+@click.option('--config', '-c', help='Config file containing tags.')
+@click.argument('directory', required=True)
+def do_tag(directory, config):
+    m3u_manage.tag(directory, config)
+
+
 cli.add_command(do_curate)
 cli.add_command(do_analyze)
 cli.add_command(do_mesh)
 cli.add_command(do_decide)
 cli.add_command(do_regularize)
 cli.add_command(do_gather)
+cli.add_command(do_tag)
 
 if __name__ == '__main__':
     from m3u_manage.__meta__ import __version__
