@@ -1,13 +1,5 @@
 # m3u-manage
 
-## Milestone 2: file management
-
-- [x] analyze PATH tags.json: update syntax to just take a path, ignoring tags
-- [x] regularize PATH: for all files in PATH, tolower filenames, fix garbage in filenames
-- [x] gather FROM_PATH TO_PATH: recursively move from_path into to_path, flattening directory hierarchy
-- [x] decide PATH DEST1 DEST2: for all files in PATH, preview each and sort into DEST1 or DEST2 with a single keypress, then automatically advance
-- [x] tag PATH tags.json: for all files in PATH, preview and single-keypress interface to add tags, from tags.json, to filenames (i.e. append strings)
-
 ## Milestone 3: list management
 
 - [ ] repeat OUT.M3U N-TIMES VIDEO: create playlist consisting of video repeated
@@ -39,6 +31,8 @@
 
 ## Done
 
+### Milestone 1: project setup
+
 - [x] create project: project-new m3u-manage
 - [x] scaffold project: diamond --skel python scaffold
 - [x] create repository at https://github.com/new
@@ -52,3 +46,10 @@
 - [x] install development environment (make dev test)
 - [x] install production environment
 
+### Milestone 2: file management
+
+- [x] analyze PATH tags.json: update syntax to just take a path, ignoring tags
+- [x] regularize PATH: for all files in PATH, tolower filenames, fix garbage in filenames
+- [x] gather FROM_PATH TO_PATH: recursively move from_path into to_path, flattening directory hierarchy
+- [x] decide PATH DEST1 DEST2: for all files in PATH, preview each and sort into DEST1 or DEST2 with a single keypress, then automatically advance
+- [x] tag PATH tags.json: for all files in PATH, preview and single-keypress interface to add tags, from tags.json, to filenames (i.e. append strings)
