@@ -4,8 +4,8 @@ import sys
 sys.path.insert(0, '.')
 
 import click
-import m3u_manage
-
+from m3u_manage.filesystem import regularize, analyze, decide, gather, tag
+from m3u_manage.playlist import mesh, curate, repeat
 
 @click.group()
 def cli():
@@ -15,18 +15,18 @@ def cli():
 @click.option('--config', '-c', help='Config file containing tags.')
 @click.argument('directory', required=True)
 def do_analyze(directory, config):
-    m3u_manage.analyze(directory, config)
+    analyze(directory, config)
 
 @click.command('curate', short_help='Automatically curate videos into playlists.')
 @click.option('--config', required=True, help='Curation configuration filename.')
 def do_curate(config):
-    m3u_manage.curate(config)
+    curate(config)
 
 @click.command('mesh', short_help='Combine playlists by interleaving items.')
 @click.option('--outfile', '-o', required=True, help='New playlist file to create.')
 @click.argument('filenames', nargs=-1, required=True)
 def do_mesh(filenames, outfile):
-    m3u_manage.mesh(filenames, outfile)
+    mesh(filenames, outfile)
 
 # decide PATH DEST1 DEST2
 @click.command('decide', short_help='Perform sorting decisions about videos.')
@@ -34,25 +34,37 @@ def do_mesh(filenames, outfile):
 @click.argument('dest1', required=True)
 @click.argument('dest2', required=True)
 def do_decide(path, dest1, dest2):
-    m3u_manage.decide(path, dest1, dest2)
+    decide(path, dest1, dest2)
 
 @click.command('regularize', short_help='Regularize filenames in a directory.')
 @click.argument('directory', required=True)
 def do_regularize(directory):
-    m3u_manage.regularize(directory)
+    regularize(directory)
 
 @click.command('gather', short_help='Recursively move from DIRECTORY into DESTINATION, flattening directory hierarchy.')
 @click.argument('directory', required=True)
 @click.argument('destination', required=True)
 def do_gather(directory, destination):
-    m3u_manage.gather(directory, destination)
+    gather(directory, destination)
 
 @click.command('tag', short_help='Tag files in directory.')
 @click.option('--config', '-c', help='Config file containing tags.')
 @click.argument('directory', required=True)
 def do_tag(directory, config):
-    m3u_manage.tag(directory, config)
+    tag(directory, config)
 
+@click.command('repeat', short_help='Create playlist consisting of video repeated.')
+@click.argument('output_m3u', required=True)
+@click.argument('video', required=True)
+@click.argument('times', required=True)
+def do_repeat(output_m3u, video, times):
+    repeat(output_m3u, video, times)
+
+# - [ ] append IN.M3U VIDEO: update m3u by appending video to end
+# - [ ] insert IN.M3U INDEX VIDEO: update m3u by inserting video at specified index (0 for start)
+# - [ ] delete IN.M3U INDEX: update m3u by deleting video at specified index
+# - [ ] get IN.M3U INDEX: print video at specified index
+# - [ ] summary IN.M3U: print summary of m3u, with titles and durations
 
 cli.add_command(do_curate)
 cli.add_command(do_analyze)
@@ -61,6 +73,7 @@ cli.add_command(do_decide)
 cli.add_command(do_regularize)
 cli.add_command(do_gather)
 cli.add_command(do_tag)
+cli.add_command(do_repeat)
 
 if __name__ == '__main__':
     from m3u_manage.__meta__ import __version__

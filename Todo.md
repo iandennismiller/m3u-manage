@@ -2,7 +2,7 @@
 
 ## Milestone 3: list management
 
-- [ ] repeat OUT.M3U N-TIMES VIDEO: create playlist consisting of video repeated
+- [ ] repeat OUT.M3U VIDEO N-TIMES: create playlist consisting of video repeated
 - [ ] append IN.M3U VIDEO: update m3u by appending video to end
 - [ ] insert IN.M3U INDEX VIDEO: update m3u by inserting video at specified index (0 for start)
 - [ ] delete IN.M3U INDEX: update m3u by deleting video at specified index
