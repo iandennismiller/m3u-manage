@@ -6,6 +6,7 @@ import json
 import m3u8
 import nltk
 import getch
+import ffmpeg
 import shutil
 import pathlib
 from nltk import ngrams, FreqDist
@@ -13,7 +14,7 @@ from nltk.corpus import stopwords
 
 from . import load_cfg
 from .util import intersperse
-from .video import side_by_side_video
+from .video import side_by_side_video, repack_video
 
 stub_m3u_tmpl = """
 #EXTM3U
@@ -204,6 +205,41 @@ def side_by_side(input_m3u, output_m3u):
         if os.path.isfile(filename):
             pathname = os.path.dirname(filename)
             basename = os.path.basename(filename)
-            basename = "sbs " + basename
-            new_filename = os.path.join(pathname, basename)
+
+            new_filename = os.path.join(pathname, "sbs " + basename)
             side_by_side_video(filename, new_filename)
+
+            segment.uri = new_filename
+            segment.title = new_filename
+
+    with open(output_m3u, "w") as f:
+        f.write(m3u8_obj.dumps())
+
+def repack(input_m3u, file_format="mp4"):
+    """
+    repack IN.M3U FORMAT: using ffmpeg, convert all files in .m3u to specified format
+    """
+    m3u8_obj = m3u8.load(input_m3u)
+
+    any_changed = False
+
+    for segment in m3u8_obj.segments:
+        filename = segment.uri
+        if os.path.isfile(filename):
+            pathname = os.path.dirname(filename)
+            no_ext = os.path.splitext(filename)[0]
+
+            probe = ffmpeg.probe(filename)
+            if file_format not in probe['format']['format_name'].split(','):
+                any_changed = True
+                new_filename = os.path.join(pathname, no_ext + "." + file_format)
+                segment.uri = new_filename
+                segment.title = new_filename
+                print("converting {} to {}".format(filename, new_filename))
+                repack_video(filename, new_filename, file_format)
+
+    if any_changed:
+        with open(input_m3u, "w") as f:
+            f.write(m3u8_obj.dumps())
+    else:
+        print("Entire playlist is already {} format.".format(file_format))

@@ -11,3 +11,13 @@ def side_by_side_video(infile, outfile):
 
     out = ffmpeg.output(v1, a1, outfile).overwrite_output()
     out.run()
+
+def repack_video(infile, outfile, file_format='mp4'):
+    in1 = ffmpeg.input(infile)
+
+    # v1 = in1.video
+    # a1 = in1.audio
+    # .output('-', format='s16le', acodec='pcm_s16le', ac=1, ar='16k')
+
+    out = ffmpeg.output(in1, outfile, format=file_format).overwrite_output()
+    out.run()

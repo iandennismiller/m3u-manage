@@ -2,9 +2,9 @@
 
 ## Milestone 4: video management
 
-- [ ] side-by-side IN.M3U OUT.M3U: using ffmpeg, convert all videos to sbs projection
-- [ ] combine --fade IN.M3U OUT.MP4: using ffmpeg, concatenate all files into mp4 specified, with fade effect
+- [x] side-by-side IN.M3U OUT.M3U: using ffmpeg, convert all videos to sbs projection
 - [ ] repack IN.M3U mp4: using ffmpeg, convert all files in .m3u to specified format
+- [ ] combine --fade IN.M3U OUT.MP4: using ffmpeg, concatenate all files into specified file
 - [ ] volume-normal IN.M3U: using ffmpeg, normalize the volume of all files in playlist
 
 ## Milestone 5: transmission
