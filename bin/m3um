@@ -5,7 +5,7 @@ sys.path.insert(0, '.')
 
 import click
 from m3u_manage.filesystem import regularize, analyze, decide, gather, tag
-from m3u_manage.playlist import mesh, curate, repeat, append_video, insert_video, delete_video, get_video, get_summary, side_by_side, repack
+from m3u_manage.playlist import mesh, curate, repeat, append_video, insert_video, delete_video, get_video, get_summary, side_by_side, repack, combine
 
 @click.group()
 def cli():
@@ -145,6 +145,15 @@ def do_repack(input_m3u, file_format):
     """
     repack(input_m3u, file_format)
 
+@click.command('combine', short_help='Concatenate all files into specified file.')
+@click.argument('input_m3u', required=True)
+@click.argument('output_file', required=True)
+def do_combine(input_m3u, output_file):
+    """
+    combine --fade IN.M3U OUTPUT_FILE: using ffmpeg, concatenate all files into specified file.
+    """
+    combine(input_m3u, output_file)
+
 cli.add_command(do_curate)
 cli.add_command(do_analyze)
 cli.add_command(do_mesh)
@@ -160,6 +169,7 @@ cli.add_command(do_get)
 cli.add_command(do_summary)
 cli.add_command(do_side_by_side)
 cli.add_command(do_repack)
+cli.add_command(do_combine)
 
 if __name__ == '__main__':
     from m3u_manage.__meta__ import __version__

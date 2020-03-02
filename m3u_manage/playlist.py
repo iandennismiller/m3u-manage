@@ -14,7 +14,7 @@ from nltk.corpus import stopwords
 
 from . import load_cfg
 from .util import intersperse
-from .video import side_by_side_video, repack_video
+from .video import side_by_side_video, repack_video, concatenate_video
 
 stub_m3u_tmpl = """
 #EXTM3U
@@ -243,3 +243,17 @@ def repack(input_m3u, file_format="mp4"):
             f.write(m3u8_obj.dumps())
     else:
         print("Entire playlist is already {} format.".format(file_format))
+
+def combine(input_m3u, output_file):
+    """
+    combine --fade IN.M3U OUT.MP4: using ffmpeg, concatenate all files into specified file
+    """
+    m3u8_obj = m3u8.load(input_m3u)
+
+    filename_list = []
+    for segment in m3u8_obj.segments:
+        if os.path.isfile(segment.uri):
+            filename_list.append(segment.uri)
+
+    if len(filename_list) > 0:
+        concatenate_video(filename_list, output_file)

@@ -21,3 +21,12 @@ def repack_video(infile, outfile, file_format='mp4'):
 
     out = ffmpeg.output(in1, outfile, format=file_format).overwrite_output()
     out.run()
+
+def concatenate_video(infile_list, outfile):
+    infiles = []
+    for filename in infile_list:
+        new_infile = ffmpeg.input(filename)
+        infiles.append(new_infile)
+    joined = ffmpeg.concat(*infiles)
+    out = ffmpeg.output(joined, outfile).overwrite_output()
+    out.run()
