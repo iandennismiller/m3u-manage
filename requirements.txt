@@ -5,3 +5,4 @@ pygame
 pymovie
 getch
 ffmpeg-python
+ffmpeg-normalize
