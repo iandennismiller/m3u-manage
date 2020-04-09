@@ -244,6 +244,13 @@ def repack(input_m3u, file_format="mp4"):
     else:
         print("Entire playlist is already {} format.".format(file_format))
 
+def get_length(input_m3u):
+    """
+    length IN.M3U: get number of files in playlist
+    """
+    m3u8_obj = m3u8.load(input_m3u)
+    print("{}\n".format(len(m3u8_obj.segments)))
+
 def combine(input_m3u, output_file):
     """
     combine --fade IN.M3U OUT.MP4: using ffmpeg, concatenate all files into specified file
