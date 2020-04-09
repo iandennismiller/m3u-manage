@@ -249,7 +249,7 @@ def get_length(input_m3u):
     length IN.M3U: get number of files in playlist
     """
     m3u8_obj = m3u8.load(input_m3u)
-    print("{}\n".format(len(m3u8_obj.segments)))
+    print("{}".format(len(m3u8_obj.segments)))
 
 def combine(input_m3u, output_file):
     """

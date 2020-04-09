@@ -11,6 +11,14 @@ from m3u_manage.playlist import mesh, curate, repeat, append_video, insert_video
 def cli():
     pass
 
+@click.command('version', short_help='Print version.')
+def do_version():
+    """
+    Print version.
+    """
+    from m3u_manage.__meta__ import __version__
+    print("m3u-manage {}\n".format(__version__))
+
 @click.command('analyze', short_help='Analyze directory for keywords.')
 @click.option('--config', '-c', help='Config file containing tags.')
 @click.argument('directory', required=True)
@@ -162,7 +170,7 @@ def do_length(input_m3u):
     """
     get_length(input_m3u)
 
-
+cli.add_command(do_version)
 cli.add_command(do_length)
 cli.add_command(do_curate)
 cli.add_command(do_analyze)
@@ -182,6 +190,4 @@ cli.add_command(do_repack)
 cli.add_command(do_combine)
 
 if __name__ == '__main__':
-    from m3u_manage.__meta__ import __version__
-    print("m3u-manage {}\n".format(__version__))
     cli()
