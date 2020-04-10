@@ -1,7 +1,7 @@
 #EXTM3U
-#EXTINF:0,cutscene.mp4
-cutscene.mp4
-#EXTINF:0,cutscene.mp4
-cutscene.mp4
-#EXTINF:0,cutscene.mp4
-cutscene.mp4
+#EXTINF:0,one.mp4
+one.mp4
+#EXTINF:0,two.mp4
+two.mp4
+#EXTINF:0,three.mp4
+three.mp4

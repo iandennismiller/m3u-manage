@@ -8,6 +8,7 @@ import nltk
 import getch
 import ffmpeg
 import shutil
+import random
 import pathlib
 from nltk import ngrams, FreqDist
 from nltk.corpus import stopwords
@@ -264,3 +265,12 @@ def combine(input_m3u, output_file):
 
     if len(filename_list) > 0:
         concatenate_video(filename_list, output_file)
+
+def shuffle(input_m3u, output_m3u):
+    """
+    shuffle IN.M3U OUT.M3U: shuffle input.m3u into the specified output file.
+    """
+    m3u8_obj = m3u8.load(input_m3u)
+    random.shuffle(m3u8_obj.segments)
+    with open(output_m3u, "w") as f:
+        f.write(m3u8_obj.dumps())

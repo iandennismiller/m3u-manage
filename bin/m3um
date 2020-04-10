@@ -5,7 +5,7 @@ sys.path.insert(0, '.')
 
 import click
 from m3u_manage.filesystem import regularize, analyze, decide, gather, tag
-from m3u_manage.playlist import mesh, curate, repeat, append_video, insert_video, delete_video, get_video, get_summary, side_by_side, repack, combine, get_length
+from m3u_manage.playlist import mesh, curate, repeat, append_video, insert_video, delete_video, get_video, get_summary, side_by_side, repack, combine, get_length, shuffle
 
 @click.group()
 def cli():
@@ -162,6 +162,15 @@ def do_combine(input_m3u, output_file):
     """
     combine(input_m3u, output_file)
 
+@click.command('shuffle', short_help='Shuffle input.m3u into the specified output file.')
+@click.argument('input_m3u', required=True)
+@click.argument('output_file', required=True)
+def do_shuffle(input_m3u, output_file):
+    """
+    shuffle IN.M3U OUT.M3U: shuffle input.m3u into the specified output file.
+    """
+    shuffle(input_m3u, output_file)
+
 @click.command('length', short_help='Get number of files in playlist.')
 @click.argument('input_m3u', required=True)
 def do_length(input_m3u):
@@ -169,6 +178,15 @@ def do_length(input_m3u):
     length IN.M3U: get number of files in playlist
     """
     get_length(input_m3u)
+
+@click.command('gui', short_help='Start the Graphical User Interface.')
+def do_gui():
+    """
+    gui
+    """
+    from m3u_manage.gui import start_gui
+    start_gui()
+
 
 cli.add_command(do_version)
 cli.add_command(do_length)
@@ -188,6 +206,8 @@ cli.add_command(do_summary)
 cli.add_command(do_side_by_side)
 cli.add_command(do_repack)
 cli.add_command(do_combine)
+cli.add_command(do_shuffle)
+# cli.add_command(do_gui)
 
 if __name__ == '__main__':
     cli()
