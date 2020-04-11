@@ -8,3 +8,4 @@ Introduction
 
     license
     changelog
+    recipes
