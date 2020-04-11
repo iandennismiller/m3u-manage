@@ -116,35 +116,6 @@ According to the exclusion criteria, all shuttles belong in the trucks playlist.
         }
     }
 
-Recipes
-^^^^^^^
-
-Downloading from youtube and normalizing volume
-"""""""""""""""""""""""""""""""""""""""""""""""
-
-::
-
-    function media_download {
-        URL=$1
-        youtube-dl \
-            -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4' \
-            --merge-output-format mp4 \
-            --no-overwrites \
-            --sleep-interval 15 \
-            --max-sleep-interval 30 \
-            --playlist-start 1 \
-            "$URL"
-        ~/.local/bin/ffmpeg-normalize *.mp4 \
-            --progress \
-            --output-format mp4 \
-            -ext mp4 \
-            -c:a aac && \
-            mkdir .old && \
-            mv *.mp4 .old && \
-            mv normalized/*.mp4 . && \
-            rmdir normalized
-    }
-
 Documentation
 ^^^^^^^^^^^^^
 

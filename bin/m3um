@@ -4,9 +4,9 @@ import sys
 sys.path.insert(0, '.')
 
 import click
-from m3u_manage.filesystem import regularize, analyze, decide, gather, tag
-from m3u_manage.playlist import mesh, curate, repeat, append_video, insert_video, delete_video, get_video, get_summary, side_by_side, repack, combine, get_length, shuffle
-from m3u_manage.download import download_video
+from m3u_manage.commands.playlist import playlist
+from m3u_manage.commands.queue import queue
+from m3u_manage.commands._dir import _dir
 
 @click.group()
 def cli():
@@ -20,166 +20,6 @@ def do_version():
     from m3u_manage.__meta__ import __version__
     print("m3u-manage {}\n".format(__version__))
 
-@click.command('analyze', short_help='Analyze directory for keywords.')
-@click.option('--config', '-c', help='Config file containing tags.')
-@click.argument('directory', required=True)
-def do_analyze(directory, config):
-    """
-    Analyze directory for keywords.
-    """
-    analyze(directory, config)
-
-@click.command('curate', short_help='Automatically curate videos into playlists.')
-@click.option('--config', required=True, help='Curation configuration filename.')
-def do_curate(config):
-    """
-    Automatically curate videos into playlists.
-    """
-    curate(config)
-
-@click.command('mesh', short_help='Combine playlists by interleaving items.')
-@click.option('--outfile', '-o', required=True, help='New playlist file to create.')
-@click.argument('filenames', nargs=-1, required=True)
-def do_mesh(filenames, outfile):
-    """
-    Combine playlists by interleaving items.
-    """
-    mesh(filenames, outfile)
-
-@click.command('decide', short_help='Perform sorting decisions about videos.')
-@click.argument('path', required=True)
-@click.argument('dest1', required=True)
-@click.argument('dest2', required=True)
-def do_decide(path, dest1, dest2):
-    """
-    Perform sorting decisions about videos.
-    """
-    decide(path, dest1, dest2)
-
-@click.command('regularize', short_help='Regularize filenames in a directory.')
-@click.argument('directory', required=True)
-def do_regularize(directory):
-    """
-    Regularize filenames in a directory.
-    """
-    regularize(directory)
-
-@click.command('gather', short_help='Recursively move from DIRECTORY into DESTINATION, flattening directory hierarchy.')
-@click.argument('directory', required=True)
-@click.argument('destination', required=True)
-def do_gather(directory, destination):
-    """
-    Recursively move from DIRECTORY into DESTINATION, flattening directory hierarchy.
-    """
-    gather(directory, destination)
-
-@click.command('tag', short_help='Tag files in directory.')
-@click.option('--config', '-c', help='Config file containing tags.')
-@click.argument('directory', required=True)
-def do_tag(directory, config):
-    """
-    """
-    tag(directory, config)
-
-@click.command('repeat', short_help='Create playlist consisting of video repeated.')
-@click.argument('output_m3u', required=True)
-@click.argument('video', required=True)
-@click.argument('times', required=True)
-def do_repeat(output_m3u, video, times):
-    """
-    Create playlist consisting of video repeated.
-    """
-    repeat(output_m3u, video, times)
-
-@click.command('append', short_help='Update m3u by appending video to end.')
-@click.argument('input_m3u', required=True)
-@click.argument('video', required=True)
-def do_append(input_m3u, video):
-    """
-    Update m3u by appending video to end.
-    """
-    append_video(input_m3u, video)
-
-@click.command('insert', short_help='Update m3u by inserting video at specified index (0 for start).')
-@click.argument('input_m3u', required=True)
-@click.argument('video', required=True)
-@click.argument('index', required=True)
-def do_insert(input_m3u, video, index):
-    """
-    Update m3u by inserting video at specified index (0 for start).
-    """
-    insert_video(input_m3u, video, index)
-
-@click.command('delete', short_help='Update m3u by deleting video at specified index.')
-@click.argument('input_m3u', required=True)
-@click.argument('index', required=True)
-def do_delete(input_m3u, index):
-    """
-    Update m3u by deleting video at specified index.
-    """
-    delete_video(input_m3u, index)
-
-@click.command('get', short_help='Print video at specified index.')
-@click.argument('input_m3u', required=True)
-@click.argument('index', required=True)
-def do_get(input_m3u, index):
-    """
-    Print video at specified index.
-    """
-    get_video(input_m3u, index)
-
-@click.command('summary', short_help='Print summary of m3u, with titles and durations.')
-@click.argument('input_m3u', required=True)
-def do_summary(input_m3u):
-    """
-    Print summary of m3u, with titles and durations.
-    """
-    get_summary(input_m3u)
-
-@click.command('side-by-side', short_help='Convert all videos to sbs projection.')
-@click.argument('input_m3u', required=True)
-@click.argument('output_m3u', required=True)
-def do_side_by_side(input_m3u, output_m3u):
-    """
-    Convert all videos to sbs projection.
-    """
-    side_by_side(input_m3u, output_m3u)
-
-@click.command('repack', short_help='Convert all files in .m3u to specified format.')
-@click.argument('input_m3u', required=True)
-@click.argument('file_format', default='mp4', required=True)
-def do_repack(input_m3u, file_format):
-    """
-    Convert all files in .m3u to specified format.
-    """
-    repack(input_m3u, file_format)
-
-@click.command('combine', short_help='Concatenate all files into specified file.')
-@click.argument('input_m3u', required=True)
-@click.argument('output_file', required=True)
-def do_combine(input_m3u, output_file):
-    """
-    combine --fade IN.M3U OUTPUT_FILE: using ffmpeg, concatenate all files into specified file.
-    """
-    combine(input_m3u, output_file)
-
-@click.command('shuffle', short_help='Shuffle input.m3u into the specified output file.')
-@click.argument('input_m3u', required=True)
-@click.argument('output_file', required=True)
-def do_shuffle(input_m3u, output_file):
-    """
-    shuffle IN.M3U OUT.M3U: shuffle input.m3u into the specified output file.
-    """
-    shuffle(input_m3u, output_file)
-
-@click.command('length', short_help='Get number of files in playlist.')
-@click.argument('input_m3u', required=True)
-def do_length(input_m3u):
-    """
-    length IN.M3U: get number of files in playlist
-    """
-    get_length(input_m3u)
-
 @click.command('gui', short_help='Start the Graphical User Interface.')
 def do_gui():
     """
@@ -188,36 +28,11 @@ def do_gui():
     from m3u_manage.gui import start_gui
     start_gui()
 
-@click.command('download', short_help='Download a video or playlist with youtube-dl.')
-@click.argument('url', required=True)
-@click.argument('output_path', required=True)
-def do_download(url, output_path):
-    """
-    download URL OUTPUT_PATH: Download video(s) with youtube-dl and normalize volume.
-    """
-    download_video(url, output_path)
 
-
+cli.add_command(playlist)
+cli.add_command(_dir, name="dir")
+cli.add_command(queue)
 cli.add_command(do_version)
-cli.add_command(do_length)
-cli.add_command(do_curate)
-cli.add_command(do_analyze)
-cli.add_command(do_mesh)
-cli.add_command(do_decide)
-cli.add_command(do_regularize)
-cli.add_command(do_gather)
-cli.add_command(do_tag)
-cli.add_command(do_repeat)
-cli.add_command(do_append)
-cli.add_command(do_insert)
-cli.add_command(do_delete)
-cli.add_command(do_get)
-cli.add_command(do_summary)
-cli.add_command(do_side_by_side)
-cli.add_command(do_repack)
-cli.add_command(do_combine)
-cli.add_command(do_shuffle)
-cli.add_command(do_download)
 # cli.add_command(do_gui)
 
 if __name__ == '__main__':

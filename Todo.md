@@ -1,12 +1,5 @@
 # m3u-manage
 
-## Milestone 4: video management
-
-- [x] side-by-side IN.M3U OUT.M3U: using ffmpeg, convert all videos to sbs projection
-- [ ] repack IN.M3U mp4: using ffmpeg, convert all files in .m3u to specified format
-- [ ] combine --fade IN.M3U OUT.MP4: using ffmpeg, concatenate all files into specified file
-- [ ] volume-normal IN.M3U: using ffmpeg, normalize the volume of all files in playlist
-
 ## Milestone 5: transmission
 
 - [ ] cast IN.M3U DESTINATION_CHROMECAST: using VLC, stream playlist to device
@@ -15,6 +8,7 @@
 
 ## Milestone 6: interaction
 
+- [ ] GUI: expose CLI functionality visually
 - [ ] page IN.M3U: render a web page for watching videos in m3u
 - [ ] site CONFIG.JSON: render tube-like website based on config
 - [ ] serve IN.M3U: run a simple http server to publish results of page/site
@@ -53,3 +47,10 @@
 - [x] delete IN.M3U INDEX: update m3u by deleting video at specified index
 - [x] get IN.M3U INDEX: print video at specified index
 - [x] summary IN.M3U: print summary of m3u, with titles and durations
+
+## Milestone 4: video management
+
+- [x] side-by-side IN.M3U OUT.M3U: using ffmpeg, convert all videos to sbs projection
+- [x] repack IN.M3U mp4: using ffmpeg, convert all files in .m3u to specified format
+- [x] combine --fade IN.M3U OUT.MP4: using ffmpeg, concatenate all files into specified file
+- [x] volume-normal IN.M3U: using ffmpeg, normalize the volume of all files in playlist
