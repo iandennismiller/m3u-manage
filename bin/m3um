@@ -6,6 +6,7 @@ sys.path.insert(0, '.')
 import click
 from m3u_manage.filesystem import regularize, analyze, decide, gather, tag
 from m3u_manage.playlist import mesh, curate, repeat, append_video, insert_video, delete_video, get_video, get_summary, side_by_side, repack, combine, get_length, shuffle
+from m3u_manage.download import download_video
 
 @click.group()
 def cli():
@@ -187,6 +188,15 @@ def do_gui():
     from m3u_manage.gui import start_gui
     start_gui()
 
+@click.command('download', short_help='Download a video or playlist with youtube-dl.')
+@click.argument('url', required=True)
+@click.argument('output_path', required=True)
+def do_download(url, output_path):
+    """
+    download URL OUTPUT_PATH: Download video(s) with youtube-dl and normalize volume.
+    """
+    download_video(url, output_path)
+
 
 cli.add_command(do_version)
 cli.add_command(do_length)
@@ -207,6 +217,7 @@ cli.add_command(do_side_by_side)
 cli.add_command(do_repack)
 cli.add_command(do_combine)
 cli.add_command(do_shuffle)
+cli.add_command(do_download)
 # cli.add_command(do_gui)
 
 if __name__ == '__main__':

@@ -6,3 +6,4 @@ pymovie
 getch
 ffmpeg-python
 ffmpeg-normalize
+youtube_dl

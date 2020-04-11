@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.4.3
+-----
+
+2020-04-11
+
+- new command: download; download a video URL and normalize volume
+
 0.4.2
 -----
 
