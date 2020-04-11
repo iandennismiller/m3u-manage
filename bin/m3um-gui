@@ -1,0 +1,7 @@
+#!/usr/bin/env python
+
+import sys
+sys.path.insert(0, '.')
+
+from m3u_manage.gui import start_gui
+start_gui()

@@ -4,7 +4,7 @@ import sys
 sys.path.insert(0, '.')
 
 import click
-from m3u_manage.filesystem import regularize, analyze, decide, gather, tag
+from m3u_manage.filesystem import regularize, analyze, decide, gather, tag, curate
 from m3u_manage.download import download_video
 
 @click.group()

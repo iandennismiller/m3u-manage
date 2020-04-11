@@ -2,7 +2,7 @@
 
 import click
 
-from m3u_manage.playlist import mesh, curate, repeat, append_video, insert_video, delete_video, get_video, get_summary, side_by_side, repack, combine, get_length, shuffle
+from m3u_manage.playlist import mesh, repeat, append_video, insert_video, delete_video, get_video, get_summary, side_by_side, repack, combine, get_length, shuffle
 
 @click.group()
 def playlist():
