@@ -2,6 +2,8 @@
 
 import click
 
+from .queue import queue
+
 from m3u_manage.playlist import mesh, repeat, append_video, insert_video, delete_video, get_video, get_summary, side_by_side, repack, combine, get_length, shuffle
 
 @click.group()
@@ -81,3 +83,5 @@ playlist.add_command(do_side_by_side)
 playlist.add_command(do_repack)
 playlist.add_command(do_combine)
 playlist.add_command(do_shuffle)
+
+playlist.add_command(queue)

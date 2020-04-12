@@ -5,12 +5,13 @@ sys.path.insert(0, '.')
 
 import click
 from m3u_manage.commands.playlist import playlist
-from m3u_manage.commands.queue import queue
 from m3u_manage.commands._dir import _dir
+
 
 @click.group()
 def cli():
     pass
+
 
 @click.command('version', short_help='Print version.')
 def do_version():
@@ -20,20 +21,11 @@ def do_version():
     from m3u_manage.__meta__ import __version__
     print("m3u-manage {}\n".format(__version__))
 
-@click.command('gui', short_help='Start the Graphical User Interface.')
-def do_gui():
-    """
-    gui
-    """
-    from m3u_manage.gui import start_gui
-    start_gui()
 
-
-cli.add_command(playlist)
-cli.add_command(_dir, name="dir")
-cli.add_command(queue)
+cli.add_command(playlist, name="list")
+cli.add_command(_dir, name="file")
 cli.add_command(do_version)
-# cli.add_command(do_gui)
+
 
 if __name__ == '__main__':
     cli()
