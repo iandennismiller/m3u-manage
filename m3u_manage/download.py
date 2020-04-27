@@ -28,6 +28,7 @@ def download_video(url, output_path, playlist_start=1):
     tmp_path = tempfile.mkdtemp()
     print("Downloading to temporary path: {}".format(tmp_path))
 
+    # https://github.com/ytdl-org/youtube-dl/blob/master/youtube_dl/YoutubeDL.py#L128-L278
     ydl_opts = {
         'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4',
         'nooverwrites': True,
@@ -38,6 +39,7 @@ def download_video(url, output_path, playlist_start=1):
         'logger': MyLogger(),
         'progress_hooks': [my_hook],
         'outtmpl': tmp_path + f'/%(title)s.mp4',
+        'ignoreerrors': True,
     }
 
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
